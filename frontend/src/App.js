@@ -14,14 +14,8 @@ export default function App() {
   const [error, setError] = useState("");
 
   const handleAnalyze = async () => {
-    if (!file) {
-      setError("Please upload a resume PDF.");
-      return;
-    }
-    if (!jobDescription.trim()) {
-      setError("Please enter a job description.");
-      return;
-    }
+    if (!file) { setError("Please upload a resume PDF."); return; }
+    if (!jobDescription.trim()) { setError("Please enter a job description."); return; }
     setError("");
     setLoading(true);
     setResult(null);
@@ -29,8 +23,7 @@ export default function App() {
       const data = await analyzeResume(file, jobDescription);
       setResult(data);
     } catch (err) {
-      const msg =
-        err.response?.data?.error || err.message || "Something went wrong.";
+      const msg = err.response?.data?.error || err.message || "Something went wrong.";
       setError(msg);
     } finally {
       setLoading(false);
@@ -38,22 +31,31 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-6 py-5">
-          <h1 className="text-3xl font-extrabold text-indigo-700 tracking-tight">
-            AI Resume Analyzer
-          </h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Upload your resume and paste a job description to get an instant AI-powered match analysis.
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900">
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-40" />
+
+      <header className="relative border-b border-white/10 bg-black/20 backdrop-blur-sm">
+        <div className="max-w-5xl mx-auto px-6 py-6">
+          <div className="flex items-center gap-3">
+            <span className="text-3xl">📄</span>
+            <div>
+              <h1 className="text-2xl font-extrabold text-white tracking-tight">
+                AI Resume Analyzer
+              </h1>
+              <p className="text-sm text-indigo-200/70">
+                Upload your resume and paste a job description for an instant AI-powered match analysis
+              </p>
+            </div>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-10 space-y-8">
+      <main className="relative max-w-5xl mx-auto px-6 py-10 space-y-8">
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-5 py-3 text-sm">
-            {error}
+          <div className="animate-slide-up bg-red-500/10 border border-red-500/20 backdrop-blur-sm text-red-200 rounded-2xl px-6 py-4 text-sm flex items-center gap-3">
+            <span className="text-lg">⚠️</span>
+            <span>{error}</span>
+            <button onClick={() => setError("")} className="ml-auto text-red-300 hover:text-red-100 text-lg leading-none">&times;</button>
           </div>
         )}
 
@@ -68,10 +70,14 @@ export default function App() {
 
         {loading && <LoadingSpinner />}
 
-        {result && <MatchResult result={result} />}
+        {result && (
+          <div className="animate-fade-in">
+            <MatchResult result={result} />
+          </div>
+        )}
       </main>
 
-      <footer className="text-center text-gray-400 text-xs py-6 border-t border-gray-100">
+      <footer className="relative border-t border-white/5 text-center text-indigo-300/40 text-xs py-6">
         AI Resume Analyzer &mdash; Built with React + Flask + scikit-learn
       </footer>
     </div>
