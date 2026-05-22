@@ -115,17 +115,26 @@ def normalize_skill(skill):
     return skill_lower
 
 
+def word_boundary_pattern(skill):
+    escaped = re.escape(skill)
+    parts = escaped.split(r"\ ")
+    if len(parts) == 1:
+        return r"\b" + parts[0] + r"\b"
+    return r"\b" + r"\s+".join(parts) + r"\b"
+
+
 def extract_skills(text):
     text_lower = text.lower()
     found_skills = set()
-    text_words = set(text_lower.split())
 
     for skill in TECHNICAL_SKILLS:
-        if skill in text_lower:
+        pattern = word_boundary_pattern(skill)
+        if re.search(pattern, text_lower):
             found_skills.add(skill)
 
     for skill in SOFT_SKILLS:
-        if skill in text_lower:
+        pattern = word_boundary_pattern(skill)
+        if re.search(pattern, text_lower):
             found_skills.add(skill)
 
     return list(found_skills)

@@ -1,6 +1,7 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from .skill_matcher import extract_skills, normalize_skill, get_skill_weight, TECHNICAL_SKILLS, SOFT_SKILLS, PROJECT_INDICATORS
+import re
+from .skill_matcher import extract_skills, normalize_skill, get_skill_weight, word_boundary_pattern, SOFT_SKILLS, PROJECT_INDICATORS
 from .preprocess import clean_text
 
 
@@ -59,7 +60,8 @@ def find_matched_projects(resume_text, skills):
             continue
         line_lower = line_stripped.lower()
         for skill in skills:
-            if skill.lower() in line_lower:
+            pattern = word_boundary_pattern(skill)
+            if re.search(pattern, line_lower):
                 projects.append(line_stripped)
                 break
     return projects[:10]
@@ -69,7 +71,8 @@ def extract_soft_skills_from_text(resume_text):
     text_lower = resume_text.lower()
     found = []
     for skill in SOFT_SKILLS:
-        if skill in text_lower:
+        pattern = word_boundary_pattern(skill)
+        if re.search(pattern, text_lower):
             found.append(format_skill_name(skill))
     return found
 
