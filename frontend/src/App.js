@@ -4,6 +4,8 @@ import JobDescription from "./components/JobDescription";
 import AnalyzeButton from "./components/AnalyzeButton";
 import LoadingSpinner from "./components/LoadingSpinner";
 import MatchResult from "./components/MatchResult";
+import Particles from "./components/Particles";
+import ScanAnimation from "./components/ScanAnimation";
 import { analyzeResume } from "./services/api";
 
 export default function App() {
@@ -31,31 +33,33 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900">
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-40" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 relative">
+      <Particles />
 
-      <header className="relative border-b border-white/10 bg-black/20 backdrop-blur-sm">
-        <div className="max-w-5xl mx-auto px-6 py-6">
+      <header className="relative z-10 border-b border-white/10 bg-black/20 backdrop-blur-sm">
+        <div className="max-w-5xl mx-auto px-6 py-5">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">📄</span>
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-lg shadow-lg animate-bounce-gentle">
+              📄
+            </div>
             <div>
-              <h1 className="text-2xl font-extrabold text-white tracking-tight">
+              <h1 className="text-2xl font-black text-white tracking-tight bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
                 AI Resume Analyzer
               </h1>
-              <p className="text-sm text-indigo-200/70">
-                Upload your resume and paste a job description for an instant AI-powered match analysis
+              <p className="text-xs text-indigo-300/50">
+                Upload &rarr; Analyze &rarr; Match &rarr; Improve
               </p>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="relative max-w-5xl mx-auto px-6 py-10 space-y-8">
+      <main className="relative z-10 max-w-5xl mx-auto px-6 py-10 space-y-8">
         {error && (
           <div className="animate-slide-up bg-red-500/10 border border-red-500/20 backdrop-blur-sm text-red-200 rounded-2xl px-6 py-4 text-sm flex items-center gap-3">
             <span className="text-lg">⚠️</span>
-            <span>{error}</span>
-            <button onClick={() => setError("")} className="ml-auto text-red-300 hover:text-red-100 text-lg leading-none">&times;</button>
+            <span className="flex-1">{error}</span>
+            <button onClick={() => setError("")} className="text-red-300 hover:text-red-100 text-lg leading-none hover:scale-110 transition-transform">&times;</button>
           </div>
         )}
 
@@ -68,7 +72,7 @@ export default function App() {
           <AnalyzeButton onClick={handleAnalyze} disabled={loading} />
         </div>
 
-        {loading && <LoadingSpinner />}
+        {loading && <><ScanAnimation /><LoadingSpinner /></>}
 
         {result && (
           <div className="animate-fade-in">
@@ -77,8 +81,10 @@ export default function App() {
         )}
       </main>
 
-      <footer className="relative border-t border-white/5 text-center text-indigo-300/40 text-xs py-6">
-        AI Resume Analyzer &mdash; Built with React + Flask + scikit-learn
+      <footer className="relative z-10 border-t border-white/5 text-center text-indigo-300/30 text-xs py-6">
+        <span className="hover:text-indigo-300/50 transition-colors">
+          Made with <span className="text-red-400 animate-pulse">♥</span> using React + Flask + scikit-learn
+        </span>
       </footer>
     </div>
   );
