@@ -13,7 +13,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
-@app.route("/analyze", methods=["POST"])
+@app.route("/api/analyze", methods=["POST"])
 def analyze_resume():
     if "resume" not in request.files:
         return jsonify({"error": "No resume file uploaded"}), 400
@@ -47,7 +47,7 @@ def analyze_resume():
             os.remove(filepath)
 
 
-@app.route("/health", methods=["GET"])
+@app.route("/api/health", methods=["GET"])
 def health():
     return jsonify({"status": "ok"})
 

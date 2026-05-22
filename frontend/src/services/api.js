@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE = "http://localhost:5000";
+const isVercel = window.location.hostname !== "localhost";
+const API_BASE = isVercel ? "/api" : "http://localhost:5000";
 
 export async function analyzeResume(file, jobDescription) {
   const formData = new FormData();
