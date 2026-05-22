@@ -363,10 +363,11 @@ MIT License — free to use, modify, and distribute.
 
 ---
 
-## GitHub Repository
+## Links
 
-```
-https://github.com/yourusername/ai-resume-analyzer
-```
+| Resource | URL |
+|----------|-----|
+| GitHub Repository | [https://github.com/Impana-N/ai-resume-analyzer](https://github.com/Impana-N/ai-resume-analyzer) |
+| Live Demo (Vercel) | [https://ai-resume-analyzer.vercel.app](https://ai-resume-analyzer.vercel.app) |
 
 Built with ❤️ using React, Flask, and scikit-learn.
