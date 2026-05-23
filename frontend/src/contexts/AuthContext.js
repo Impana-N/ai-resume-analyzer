@@ -29,7 +29,8 @@ export function AuthProvider({ children }) {
       setUser(data.user);
       return { success: true };
     } catch (err) {
-      const msg = err.response?.data?.error || "Login failed";
+      const errData = err.response?.data?.error;
+      const msg = typeof errData === "object" ? (errData.message || errData.code || JSON.stringify(errData)) : (errData || "Login failed");
       return { success: false, error: msg };
     } finally {
       setLoading(false);
@@ -46,7 +47,8 @@ export function AuthProvider({ children }) {
       setUser(data.user);
       return { success: true };
     } catch (err) {
-      const msg = err.response?.data?.error || "Signup failed";
+      const errData = err.response?.data?.error;
+      const msg = typeof errData === "object" ? (errData.message || errData.code || JSON.stringify(errData)) : (errData || "Signup failed");
       return { success: false, error: msg };
     } finally {
       setLoading(false);

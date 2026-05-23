@@ -32,7 +32,8 @@ export default function Dashboard() {
       const data = await analyzeResume(file, jobDescription);
       setResult(data);
     } catch (err) {
-      const msg = err.response?.data?.error || err.message || "Something went wrong.";
+      const errData = err.response?.data?.error;
+      const msg = typeof errData === "object" ? (errData.message || errData.code || JSON.stringify(errData)) : (errData || err.message || "Something went wrong.");
       setError(msg);
     } finally {
       setLoading(false);
