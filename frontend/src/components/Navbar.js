@@ -11,6 +11,10 @@ const NAV_LINKS = [
   { to: "/analyze", label: "Analyze", icon: BarChart3 },
 ];
 
+const linkBase = "px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2";
+const linkActive = "bg-indigo-500/20 dark:text-indigo-300 text-indigo-600 border border-indigo-500/20";
+const linkInactive = "dark:text-gray-400 text-gray-600 dark:hover:text-white hover:text-gray-900 dark:hover:bg-white/5 hover:bg-gray-100";
+
 export default function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
   const { dark, toggle } = useTheme();
@@ -33,7 +37,9 @@ export default function Navbar() {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? "bg-gray-900/80 backdrop-blur-xl border-b border-white/10 shadow-xl" : "bg-transparent"
+      scrolled
+        ? "dark:bg-gray-900/80 bg-white/80 backdrop-blur-xl border-b dark:border-white/10 border-gray-200 shadow-xl"
+        : "bg-transparent"
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
@@ -42,69 +48,51 @@ export default function Navbar() {
               <FileText className="w-5 h-5 text-white" />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-lg font-bold text-white tracking-tight">AI Resume Analyzer</h1>
+              <h1 className="text-lg font-bold dark:text-white text-gray-900 tracking-tight">AI Resume Analyzer</h1>
             </div>
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
             {NAV_LINKS.map(({ to, label, icon: Icon }) => (
-              <Link
-                key={to}
-                to={to}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                  isActive(to)
-                    ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/20"
-                    : "text-gray-400 hover:text-white hover:bg-white/5"
-                }`}
-              >
+              <Link key={to} to={to} className={`${linkBase} ${isActive(to) ? linkActive : linkInactive}`}>
                 <Icon className="w-4 h-4" />
                 {label}
               </Link>
             ))}
             {isAuthenticated && (
               <>
-                <Link to="/saved-analyses" className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                  isActive("/saved-analyses") ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/20" : "text-gray-400 hover:text-white hover:bg-white/5"
-                }`}>
-                  <FileText className="w-4 h-4" />
-                  Saved
+                <Link to="/saved-analyses" className={`${linkBase} ${isActive("/saved-analyses") ? linkActive : linkInactive}`}>
+                  <FileText className="w-4 h-4" /> Saved
                 </Link>
-                <Link to="/profile" className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                  isActive("/profile") ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/20" : "text-gray-400 hover:text-white hover:bg-white/5"
-                }`}>
-                  <User className="w-4 h-4" />
-                  Profile
+                <Link to="/profile" className={`${linkBase} ${isActive("/profile") ? linkActive : linkInactive}`}>
+                  <User className="w-4 h-4" /> Profile
                 </Link>
               </>
             )}
           </div>
 
           <div className="flex items-center gap-2">
-            <button onClick={toggle} className="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all" title="Toggle theme">
+            <button onClick={toggle} className="p-2 rounded-xl dark:text-gray-400 text-gray-600 dark:hover:text-white hover:text-gray-900 dark:hover:bg-white/5 hover:bg-gray-100 transition-all" title="Toggle theme">
               {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
 
             {isAuthenticated ? (
               <div className="hidden md:flex items-center gap-3">
-                <span className="text-sm text-gray-400">
-                  <span className="text-indigo-400">{user?.username}</span>
+                <span className="text-sm dark:text-gray-400 text-gray-600">
+                  <span className="text-indigo-500">{user?.username}</span>
                 </span>
-                <button onClick={logout} className="p-2 rounded-xl text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-all" title="Logout">
+                <button onClick={logout} className="p-2 rounded-xl dark:text-gray-400 text-gray-600 dark:hover:text-red-400 hover:text-red-600 dark:hover:bg-red-500/10 hover:bg-red-50 transition-all" title="Logout">
                   <LogOut className="w-5 h-5" />
                 </button>
               </div>
             ) : (
               <div className="hidden md:flex items-center gap-2">
-                <Link to="/login" className="px-4 py-2 rounded-xl text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all">
-                  Login
-                </Link>
-                <Link to="/signup" className="px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-lg hover:shadow-indigo-500/25 transition-all">
-                  Sign Up
-                </Link>
+                <Link to="/login" className="px-4 py-2 rounded-xl text-sm font-medium dark:text-gray-300 text-gray-600 dark:hover:text-white hover:text-gray-900 dark:hover:bg-white/5 hover:bg-gray-100 transition-all">Login</Link>
+                <Link to="/signup" className="px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-lg hover:shadow-indigo-500/25 transition-all">Sign Up</Link>
               </div>
             )}
 
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+            <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 rounded-xl dark:text-gray-400 text-gray-600 dark:hover:text-white hover:text-gray-900 dark:hover:bg-white/5 hover:bg-gray-100 transition-all">
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
@@ -113,36 +101,32 @@ export default function Navbar() {
 
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="md:hidden border-t border-white/5 bg-gray-900/95 backdrop-blur-xl">
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
+            className="md:hidden border-t dark:border-white/5 border-gray-200 dark:bg-gray-900/95 bg-white/95 backdrop-blur-xl">
             <div className="px-4 py-4 space-y-1">
               {NAV_LINKS.map(({ to, label, icon: Icon }) => (
                 <Link key={to} to={to} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                  isActive(to) ? "bg-indigo-500/20 text-indigo-300" : "text-gray-400 hover:text-white hover:bg-white/5"
+                  isActive(to) ? "bg-indigo-500/20 dark:text-indigo-300 text-indigo-600" : "dark:text-gray-400 text-gray-600 dark:hover:text-white hover:text-gray-900 dark:hover:bg-white/5 hover:bg-gray-100"
                 }`}>
-                  <Icon className="w-4 h-4" />
-                  {label}
+                  <Icon className="w-4 h-4" /> {label}
                 </Link>
               ))}
               {isAuthenticated ? (
                 <>
-                  <Link to="/saved-analyses" className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+                  <Link to="/saved-analyses" className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium dark:text-gray-400 text-gray-600 dark:hover:text-white hover:text-gray-900 dark:hover:bg-white/5 hover:bg-gray-100 transition-all">
                     <FileText className="w-4 h-4" /> Saved Analyses
                   </Link>
-                  <Link to="/profile" className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+                  <Link to="/profile" className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium dark:text-gray-400 text-gray-600 dark:hover:text-white hover:text-gray-900 dark:hover:bg-white/5 hover:bg-gray-100 transition-all">
                     <User className="w-4 h-4" /> Profile
                   </Link>
-                  <button onClick={logout} className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 transition-all w-full">
+                  <button onClick={logout} className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium dark:text-red-400 text-red-600 dark:hover:bg-red-500/10 hover:bg-red-50 transition-all w-full">
                     <LogOut className="w-4 h-4" /> Logout
                   </button>
                 </>
               ) : (
                 <>
-                  <Link to="/login" className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all">
-                    Login
-                  </Link>
-                  <Link to="/signup" className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-indigo-300 hover:bg-indigo-500/10 transition-all">
-                    Sign Up
-                  </Link>
+                  <Link to="/login" className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium dark:text-gray-400 text-gray-600 dark:hover:text-white hover:text-gray-900 dark:hover:bg-white/5 hover:bg-gray-100 transition-all">Login</Link>
+                  <Link to="/signup" className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium dark:text-indigo-300 text-indigo-600 dark:hover:bg-indigo-500/10 hover:bg-indigo-50 transition-all">Sign Up</Link>
                 </>
               )}
             </div>

@@ -47,7 +47,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 pt-16">
+    <div className="min-h-screen pt-16">
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/10 via-purple-900/10 to-gray-950 pointer-events-none" />
 
       <section className="relative py-20 px-6">

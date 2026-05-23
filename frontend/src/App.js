@@ -21,7 +21,7 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <ToastProvider>
-          <div className="min-h-screen bg-gray-950 text-white">
+          <div className="min-h-screen">
             <Navbar />
             <Routes>
               <Route path="/" element={<LandingPage />} />

@@ -24,7 +24,7 @@ export default function FAQPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-950 pt-16">
+    <div className="min-h-screen pt-16">
       <section className="relative py-20 px-6">
         <div className="max-w-3xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">

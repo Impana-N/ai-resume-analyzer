@@ -4,19 +4,19 @@
 
 @layer base {
   body {
-    @apply transition-colors duration-300;
+    @apply bg-slate-50 text-slate-900 transition-colors duration-300;
   }
   body.dark {
-    @apply bg-gray-950;
+    @apply bg-gray-950 text-white;
   }
 }
 
 @layer components {
   .glass {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+    @apply dark:bg-white/5 bg-white/70 backdrop-blur-xl dark:border-white/10 border-gray-200;
   }
   .glass-dark {
-    @apply bg-black/20 backdrop-blur-xl border border-white/10;
+    @apply dark:bg-black/20 bg-gray-100/80 backdrop-blur-xl dark:border-white/10 border-gray-200;
   }
   .gradient-text {
     @apply bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent;

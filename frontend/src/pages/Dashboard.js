@@ -63,7 +63,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 relative pt-16">
+    <div className="min-h-screen relative pt-16">
       <Particles />
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/10 via-purple-900/10 to-gray-950" />
 

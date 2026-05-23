@@ -295,7 +295,7 @@ function ContactSection() {
 
 export default function LandingPage() {
   return (
-    <div className="bg-gray-950 min-h-screen">
+    <div className="min-h-screen">
       <HeroSection />
       <FeaturesSection />
       <HowItWorksSection />
