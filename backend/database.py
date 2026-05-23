@@ -3,7 +3,8 @@ import os
 import hashlib
 import uuid
 
-DB_DIR = os.path.join(os.path.dirname(__file__), "data")
+IS_VERCEL = os.environ.get("VERCEL") or os.environ.get("VERCEL_ENV")
+DB_DIR = "/tmp/data" if IS_VERCEL else os.path.join(os.path.dirname(__file__), "data")
 DB_PATH = os.path.join(DB_DIR, "app.db")
 os.makedirs(DB_DIR, exist_ok=True)
 

@@ -11,12 +11,16 @@ from database import init_db, create_user, authenticate_user, get_user_by_id, up
 app = Flask(__name__)
 CORS(app)
 
-UPLOAD_FOLDER = "/tmp" if os.environ.get("VERCEL") else "uploads"
+IS_VERCEL = os.environ.get("VERCEL") or os.environ.get("VERCEL_ENV")
+UPLOAD_FOLDER = "/tmp" if IS_VERCEL else "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-key-change-in-production")
 
-init_db()
+try:
+    init_db()
+except Exception as e:
+    print(f"Database init warning: {e}")
 
 
 def token_required(f):
