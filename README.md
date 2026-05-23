@@ -1,16 +1,19 @@
-# AI Resume Analyzer
+# AI Resume Analyzer 🚀
 
-An intelligent full-stack web application that analyzes resumes against job descriptions using **TF-IDF vectorization**, **cosine similarity**, and **weighted skill matching**. Built with React + Flask + scikit-learn.
+An intelligent full-stack web application that analyzes resumes against job descriptions using **TF-IDF vectorization**, **cosine similarity**, and **weighted skill matching**. Built with React 18 + Flask + scikit-learn.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![Flask](https://img.shields.io/badge/Flask-3.0-green)
 ![React](https://img.shields.io/badge/React-18-61DAFB)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.6-orange)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-11-0055FF)
 
 ---
 
-## Features
+## ✨ Features
 
+### Core Analysis
 - Upload a resume in **PDF** format
 - Paste any **job description**
 - Extracts resume text automatically using **PyMuPDF**
@@ -23,7 +26,23 @@ An intelligent full-stack web application that analyzes resumes against job desc
   - Matched projects & experience
   - Soft skills
 - Generates **improvement suggestions**
-- Displays results in a beautiful **React dashboard** with score, progress bar, and skill tags
+
+### New Features (v2.0)
+- 🔐 **Authentication System** — Signup, Login, Logout with token-based auth
+- 🏠 **Landing Page** — Hero section, animated features, how-it-works, CTA
+- 📊 **Dashboard** — Interactive analysis with animated score reveal
+- 👥 **About Page** — Project overview, AI pipeline, team cards, tech stack
+- 📞 **Contact Page** — Functional contact form with social links
+- ❓ **FAQ Page** — Searchable accordion with common questions
+- 👤 **Profile Page** — Editable user profile
+- 💾 **Saved Analyses** — Persisted analysis history (SQLite)
+- 🌓 **Dark/Light Mode** — Theme toggle with system preference detection
+- 🎯 **Toast Notifications** — Real-time success/error feedback
+- 🎬 **Framer Motion Animations** — Page transitions, hover effects, typewriter
+- 🧊 **Glassmorphism UI** — Modern frosted glass design system
+- 📱 **Responsive Design** — Mobile-optimized with collapsible navbar
+- 🎨 **Gradient Themes** — Futuristic AI color palette
+- ✨ **Interactive Elements** — Floating particles, scan animations, confetti
 
 ---
 
@@ -62,7 +81,7 @@ An intelligent full-stack web application that analyzes resumes against job desc
 |-------|-----------|-------------|
 | 1 | Resume Upload | User uploads a PDF resume via the React frontend |
 | 2 | PDF Extraction | PyMuPDF extracts raw text from the uploaded PDF |
-| 3 | Text Preprocessing | Lowercasing, punctuation removal, stopword removal, tokenization, lemmatization |
+| 3 | Text Preprocessing | Lowercasing, punctuation removal, stopword removal, lemmatization |
 | 4 | Skill Extraction | Regex and dictionary-based extraction of technical + soft skills |
 | 5 | Skill Normalization | Maps synonyms (e.g. "ml" → "machine learning", "reactjs" → "react") |
 | 6 | TF-IDF Vectorization | Converts text into numerical vectors using scikit-learn |
@@ -80,8 +99,11 @@ An intelligent full-stack web application that analyzes resumes against job desc
 | Library | Purpose |
 |---------|---------|
 | React 18 | UI framework |
-| Tailwind CSS (CDN) | Utility-first styling |
-| Axios | HTTP client for API calls |
+| React Router 6 | Client-side routing |
+| Tailwind CSS 3 | Utility-first styling |
+| Framer Motion 11 | Animations & transitions |
+| Lucide React | Icon library |
+| Axios | HTTP client |
 
 ### Backend
 | Library | Purpose |
@@ -90,20 +112,21 @@ An intelligent full-stack web application that analyzes resumes against job desc
 | Flask-CORS | Cross-origin requests |
 | PyMuPDF | PDF text extraction |
 | scikit-learn | TF-IDF + Cosine Similarity |
-| nltk | Text preprocessing (tokenization, stopwords, lemmatization) |
-| NumPy | Numerical operations |
-| Pandas | Data handling |
+| NLTK | Text preprocessing |
+| SQLite | User & analysis storage |
 
 ---
 
 ## Folder Structure
 
 ```
-resume-analyzer/
+ai-resume-analyzer/
 │
 ├── backend/
-│   ├── app.py                  # Flask server & API endpoint
+│   ├── app.py                  # Flask server with API & auth routes
+│   ├── database.py             # SQLite database layer
 │   ├── requirements.txt        # Python dependencies
+│   ├── data/                   # SQLite database file (auto-created)
 │   ├── uploads/                # Temporary PDF storage (gitignored)
 │   └── utils/
 │       ├── __init__.py
@@ -114,21 +137,48 @@ resume-analyzer/
 │
 ├── frontend/
 │   ├── package.json
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
 │   ├── public/
-│   │   └── index.html          # HTML entry with Tailwind CDN
+│   │   └── index.html
 │   └── src/
-│       ├── index.js            # React entry point
-│       ├── App.js              # Main app component
+│       ├── index.js            # React entry point with Router
+│       ├── index.css           # Tailwind imports + global styles
+│       ├── App.js              # Routes & provider setup
+│       ├── contexts/
+│       │   ├── AuthContext.js   # Authentication state
+│       │   ├── ThemeContext.js  # Dark/light mode
+│       │   └── ToastContext.js  # Toast notifications
 │       ├── services/
 │       │   └── api.js          # Axios API client
-│       └── components/
-│           ├── ResumeUpload.js       # Drag-and-drop PDF upload
-│           ├── JobDescription.js     # Job description textarea
-│           ├── AnalyzeButton.js      # Analyze trigger button
-│           ├── LoadingSpinner.js     # Loading animation
-│           ├── MatchResult.js        # Score card + progress bar
-│           ├── SkillsSection.js      # Matching/missing skill badges
-│           └── SuggestionsSection.js # Improvement suggestions
+│       ├── components/
+│       │   ├── Navbar.js       # Animated responsive navbar
+│       │   ├── Footer.js       # Site footer with links
+│       │   ├── ProtectedRoute.js # Auth guard component
+│       │   ├── ResumeUpload.js # Drag-and-drop PDF upload
+│       │   ├── JobDescription.js # Job description textarea
+│       │   ├── AnalyzeButton.js # Analyze trigger button
+│       │   ├── LoadingSpinner.js # Loading animation
+│       │   ├── MatchResult.js  # Score card + progress bar
+│       │   ├── SkillsSection.js # Matching/missing skill badges
+│       │   ├── SuggestionsSection.js # Improvement suggestions
+│       │   ├── SkillBar.js     # Animated skill progress bars
+│       │   ├── ScanAnimation.js # AI scanning overlay
+│       │   ├── Particles.js    # Floating background particles
+│       │   ├── Confetti.js     # Celebration confetti effect
+│       │   ├── AnimatedCounter.js # Animated number counter
+│       │   ├── AnalyzerMascot.js # Fun mascot component
+│       │   └── ErrorBoundary.js # Error boundary handler
+│       └── pages/
+│           ├── LandingPage.js      # Home page with hero & features
+│           ├── LoginPage.js        # Sign in form
+│           ├── SignupPage.js       # Registration form
+│           ├── Dashboard.js        # Resume analysis tool
+│           ├── AboutPage.js        # About & pipeline info
+│           ├── ContactPage.js      # Contact form
+│           ├── FAQPage.js          # Searchable FAQ accordion
+│           ├── ProfilePage.js      # User profile settings
+│           └── SavedAnalysesPage.js # Analysis history
 │
 ├── .gitignore
 └── README.md
@@ -147,7 +197,7 @@ resume-analyzer/
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/ai-resume-analyzer.git
+git clone https://github.com/Impana-N/ai-resume-analyzer.git
 cd ai-resume-analyzer
 ```
 
@@ -190,7 +240,7 @@ python app.py
 The Flask server starts at `http://localhost:5000`. Verify with:
 
 ```bash
-curl http://localhost:5000/health
+curl http://localhost:5000/api/health
 # → {"status": "ok"}
 ```
 
@@ -208,79 +258,64 @@ The React app opens at `http://localhost:3000`.
 ## Usage
 
 1. Open `http://localhost:3000` in your browser
-2. Click the upload area and select your **resume PDF**
-3. Paste the **job description** in the textarea
-4. Click **"Analyze Resume"**
-5. View your match score, matching/missing skills, project matches, and suggestions
+2. Browse the **Landing Page** for an overview
+3. **Sign up** for an account or **Log in**
+4. Navigate to **Analyze** from the navbar
+5. Click the upload area and select your **resume PDF**
+6. Paste the **job description** in the textarea
+7. Click **"Analyze Resume"**
+8. View your match score, matching/missing skills, project matches, and suggestions
+9. **Save** your analysis for later reference
+10. View your **Saved Analyses** and **Profile** from the navbar
 
 ---
 
 ## API Reference
 
-### `POST /analyze`
+### `POST /api/signup`
+**Request:**
+```json
+{ "username": "john", "email": "john@example.com", "password": "secret123" }
+```
+**Response:** `{ "token": "...", "user": { "id": 1, "username": "john", "email": "john@example.com" } }`
 
+### `POST /api/login`
+**Request:**
+```json
+{ "email": "john@example.com", "password": "secret123" }
+```
+**Response:** `{ "token": "...", "user": { "id": 1, "username": "john", "email": "john@example.com" } }`
+
+### `POST /api/analyze`
 **Request** (multipart/form-data):
 | Field | Type | Description |
 |-------|------|-------------|
-| `resume` | File | PDF file (max ~10MB) |
+| `resume` | File | PDF file |
 | `job_description` | String | Job description text |
 
-**Response** (JSON):
+**Response:**
 ```json
 {
   "match_percentage": 88,
-  "matching_skills": ["Python", "Machine Learning", "SQL", "C++", "Html"],
+  "matching_skills": ["Python", "Machine Learning", "SQL"],
   "missing_skills": ["Docker", "AWS"],
-  "matched_projects": [
-    "Customer Churn Prediction using Machine Learning",
-    "AI-based Resume Analyzer"
-  ],
-  "soft_skills": ["Problem Solving", "Teamwork", "Leadership"],
-  "suggestions": [
-    "Consider learning or highlighting experience in Docker.",
-    "Consider learning or highlighting experience in AWS."
-  ]
+  "matched_projects": ["Customer Churn Prediction using ML"],
+  "soft_skills": ["Problem Solving", "Teamwork"],
+  "suggestions": ["Consider learning Docker."]
 }
 ```
 
-### `GET /health`
+### `GET /api/health`
+Returns `{"status": "ok"}`
 
-Returns `{"status": "ok"}` to verify the server is running.
+### `GET /api/analyses` (requires auth)
+Returns saved analyses for the authenticated user.
 
----
+### `GET /api/profile` (requires auth)
+Returns the authenticated user's profile.
 
-## Skill Normalization Logic
-
-The system uses a smart synonym dictionary so that semantically similar skills are treated as matches:
-
-| Resume Text | Normalized To | Matches JD? |
-|-------------|---------------|-------------|
-| "Machine Learning Algorithms" | "machine learning" | Yes |
-| "Artificial Intelligence" | "ai" | Yes |
-| "Problem Solving Abilities" | "problem solving" | Yes |
-| "Software Engineering Concepts" | "software engineering" | Yes |
-| "Customer Churn Prediction" | "customer churn prediction" | Yes |
-| "React.js" / "ReactJS" | "react" | Yes |
-
-### Weighted Skills
-
-Higher weights are assigned to high-demand skills, giving them more impact on the match score:
-
-| Skill | Weight |
-|-------|--------|
-| Python | 3.0 |
-| Machine Learning | 3.0 |
-| Customer Churn Prediction | 3.0 |
-| SQL | 2.5 |
-| AI / Artificial Intelligence | 2.5 |
-| Data Science | 2.5 |
-| Deep Learning | 2.5 |
-| React / Flask / Django / Scikit-learn | 2.0 |
-| NLP | 2.0 |
-| C / C++ / Java / JavaScript / Git | 1.5 |
-| HTML / CSS | 1.0 |
-
-> **Final Score = 30% × TF‑IDF Cosine Similarity + 70% × Weighted Skill Match**
+### `PUT /api/profile` (requires auth)
+Updates the authenticated user's profile.
 
 ---
 
@@ -289,70 +324,19 @@ Higher weights are assigned to high-demand skills, giving them more impact on th
 | Error | Cause | Fix |
 |-------|-------|-----|
 | `No module named 'nltk'` | nltk not installed | `pip install nltk` |
-| `ModuleNotFoundError: No module named 'fitzy'` | PyMuPDF not installed | `pip install PyMuPDF` |
-| `Could not extract text from PDF` | Scanned/image-based PDF | Use a text-based PDF (not scanned) |
+| `Could not extract text from PDF` | Scanned/image-based PDF | Use a text-based PDF |
 | `Port 5000 already in use` | Another process on port 5000 | Kill the process or change port in `app.py` |
-| `react-scripts: command not found` | npm packages not installed | Run `npm install` in frontend/ |
 | `CORS error` | Backend not running | Ensure Flask is running on port 5000 |
-
----
-
-## Sample Output Screenshots
-
-```
-┌─────────────────────────────────────────────────────┐
-│                AI Resume Analyzer                    │
-│                                                     │
-│  ┌──────────────────┐  ┌──────────────────────────┐ │
-│  │  Upload Resume    │  │  Job Description         │ │
-│  │  [resume.pdf]     │  │  ┌──────────────────┐   │ │
-│  │  ┌──────────┐     │  │  │ We are looking   │   │ │
-│  │  │ Click to │     │  │  │ for a skilled ML │   │ │
-│  │  │ upload   │     │  │  │ engineer...      │   │ │
-│  │  └──────────┘     │  │  └──────────────────┘   │ │
-│  └──────────────────┘  └──────────────────────────┘ │
-│                                                     │
-│              [ Analyze Resume ]                      │
-│                                                     │
-│  ┌──────────────────────────────────────────────┐   │
-│  │         Resume Match Score                   │   │
-│  │                 88%                          │   │
-│  │  ████████████████████████████░░░░░░░░░░░░    │   │
-│  │  Strong match!                               │   │
-│  └──────────────────────────────────────────────┘   │
-│                                                     │
-│  ┌──────────────┐  ┌──────────────┐                 │
-│  │ Matching Skls│  │ Missing Skls │                 │
-│  │ Python SQL   │  │ Docker AWS   │                 │
-│  │ ML React     │  │              │                 │
-│  └──────────────┘  └──────────────┘                 │
-│                                                     │
-│  ┌──────────────────────────────────────────────┐   │
-│  │ Matched Projects & Experience                │   │
-│  │ • Customer Churn Prediction using ML         │   │
-│  │ • AI-based Resume Analyzer project           │   │
-│  └──────────────────────────────────────────────┘   │
-│                                                     │
-│  ┌──────────────────────────────────────────────┐   │
-│  │ Suggestions                                  │   │
-│  │ • Consider learning Docker.                  │   │
-│  │ • Consider learning AWS.                     │   │
-│  └──────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────┘
-```
 
 ---
 
 ## Future Improvements
 
-- Add support for **`.docx` and `.txt`** resume formats
+- Add support for `.docx` and `.txt` resume formats
 - Add **LLM-based analysis** (GPT/Claude) for deeper semantic matching
 - Support **multiple resume comparison**
 - Add **keyword frequency analysis** and **skill gap heatmap**
-- Build a **resume score history** using local storage
 - Deploy backend to **Render / Railway / PythonAnywhere**
-- Deploy frontend to **Vercel / Netlify**
-- Add **dark mode** toggle
 - Write **unit tests** for the analysis pipeline
 
 ---

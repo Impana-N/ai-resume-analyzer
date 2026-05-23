@@ -19,6 +19,9 @@ frontend/build/
 # Uploads
 backend/uploads/
 
+# Database
+backend/data/
+
 # Environment
 .env
 .env.local
